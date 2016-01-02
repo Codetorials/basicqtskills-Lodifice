@@ -27,8 +27,10 @@
 
 #include <QObject>
 #include <QRunnable>
+#include <QVariant>
+#include <QMutex>
 
-namespace basic_qt {
+namespace basicQt {
 
 class Worker :
         public QObject,
@@ -45,5 +47,72 @@ public:
      */
     virtual void run();
 };
+
+class ProducerWorker :
+        public Worker {
+    Q_OBJECT
+
+public:
+    explicit ProducerWorker();
+    virtual void run() = 0;
+
+signals:
+    void signal_deliverData(QVariant data);
+    void signal_retire();
+};
+
+class StringProducer :
+        public ProducerWorker {
+    Q_OBJECT
+
+public:
+    explicit StringProducer();
+    void run();
+};
+
+class NumberProducer :
+        public ProducerWorker {
+    Q_OBJECT
+
+public:
+    explicit NumberProducer();
+    void run();
+};
+
+class ConsumerWorker :
+        public Worker {
+    Q_OBJECT
+
+public:
+    explicit ConsumerWorker(QVariant data);
+    virtual void run() = 0;
+
+protected:
+    QVariant m_data;
+    static QMutex outputLock;
+};
+
+class BasicConsumer :
+        public ConsumerWorker {
+    Q_OBJECT
+
+public:
+    explicit BasicConsumer(QVariant data);
+    void run();
+};
+
+class IterativeConsumer :
+        public ConsumerWorker {
+    Q_OBJECT
+
+public:
+    explicit IterativeConsumer(QVariant data);
+    void run();
+
+private:
+    static QMutex sumLock;
+    static long unsigned sum;
+};
+
 }
 #endif // WORKER_H

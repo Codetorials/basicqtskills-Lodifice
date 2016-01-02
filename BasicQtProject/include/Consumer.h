@@ -17,16 +17,25 @@
 #define CONSUMER_H
 
 #include <QObject>
+#include <QVariant>
+#include <QThreadPool>
 
-class Consumer : public QObject
-{
+namespace basicQt {
+
+class Consumer :
+        public QObject {
     Q_OBJECT
 public:
     explicit Consumer(QObject *parent = 0);
 
+private:
+    QThreadPool m_workers;
+
 signals:
 
 public slots:
+    void slot_spawnConsumer(QVariant data);
 };
+}
 
 #endif // CONSUMER_H

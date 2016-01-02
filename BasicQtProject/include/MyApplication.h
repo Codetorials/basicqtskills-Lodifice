@@ -13,7 +13,6 @@ class MyApplication :
         public QCoreApplication {
     Q_OBJECT
 private:
-
     unsigned m_minProducerCount = 2;
 
     // TODO properly instantiate these, do not forget signal-slot connections

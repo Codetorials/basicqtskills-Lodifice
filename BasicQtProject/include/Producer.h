@@ -26,9 +26,13 @@
 #define PRODUCER_H
 
 #include <QObject>
+#include <QVariant>
+#include <QThreadPool>
 
-class Producer : public QObject
-{
+namespace basicQt {
+
+class Producer :
+        public QObject {
     Q_OBJECT
 public:
     explicit Producer(QObject *parent = 0);
@@ -36,9 +40,16 @@ public:
     // TODO implement this
     unsigned workerCount();
 
+private:
+    QThreadPool m_workers;
+
 signals:
+    void signal_workDone();
+    void signal_dataProduced(QVariant data);
 
 public slots:
+    void slot_spawnProducers();
 };
+}
 
 #endif // PRODUCER_H
