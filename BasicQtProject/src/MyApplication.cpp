@@ -18,10 +18,6 @@ MyApplication::MyApplication(int argc, char** argv):
     this->setApplicationVersion("v2015.12.18");
     this->setOrganizationName("GWT-TUD");
 
-    /* Does not work for Bjarne reasons */
-    //this->m_producer(this);
-    //this->m_consumer(this);
-
     QObject::connect(&this->m_producer, SIGNAL(signal_dataProduced(QVariant)), this, SIGNAL(signal_dataAvailable(QVariant)));
     QObject::connect(&this->m_producer, SIGNAL(signal_workDone()), this, SLOT(slot_producerFinished()));
     QObject::connect(this, SIGNAL(signal_producersRequired()), &this->m_producer, SLOT(slot_spawnProducers()));

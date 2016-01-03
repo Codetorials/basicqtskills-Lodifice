@@ -14,8 +14,6 @@ class MyApplication :
     Q_OBJECT
 private:
     unsigned m_minProducerCount = 2;
-
-    // TODO properly instantiate these, do not forget signal-slot connections
     Consumer m_consumer;
     Producer m_producer;
 
@@ -28,9 +26,6 @@ private:
      * Note: argv[0] is always the fully qualified path under which the application was called.
      */
     void parseCommandLineArguments();
-    // Note: you may modify the implementation if you like.
-    // e.g. change the min producer count
-    // Just make sure to adapt the documentation as well
 
 public:
     MyApplication(int argc, char** argv);
@@ -52,6 +47,10 @@ signals:
     void signal_dataAvailable(QVariant data);
 
 public slots:
+    /**
+     * @brief slot_producerFinished will be called when a producer stops producing data.
+     * It will make sure that always at least m_minProducerCount producers are running.
+     */
     void slot_producerFinished();
 };
 }

@@ -1,18 +1,3 @@
-/*
- * TODO:
- * More auto-generated code...
- *
- * 1) Fix formatting and namespacing
- * 2) Make sure the application is the consumers parent
- * 3) Listen for signal_dataAvailable
- * 4) If new data is available create a new consumer worker and let it handle the data
- *      Hint: QThreadPool
- *
- * Restictions:
- * Do not have just one worker idling around, waiting for data.
- * Once the workers are done, they shall perish.
- */
-
 #ifndef CONSUMER_H
 #define CONSUMER_H
 
@@ -34,6 +19,11 @@ private:
 signals:
 
 public slots:
+    /**
+     * @brief slot_spawnConsumer will be called by the main application whenever there is data
+     * to be consumed and create a consumer worker for that task.
+     * @param data the data that will be handed to the new consumer.
+     */
     void slot_spawnConsumer(QVariant data);
 };
 }

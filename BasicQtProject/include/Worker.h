@@ -1,27 +1,3 @@
-/*
- * TODO TASK:
- * Properly subclass this into producer and consumer worker classes.
- * Each of these can have different strategies how to do stuff.
- *
- * All data passed between workers are by convention of the type QVariant.
- *
- * Producer worker examples:
- * - ConstantStringProducer (just produces --- you guessed it...)
- * - CounterProducer (counts up a number and issues it as data)
- * - JsonProducer (produces a QJsonObject)
- *
- * Consumer worker examples:
- * - PrintConsumer (Just prints, what it gets)
- * - FileConsumer (Appends everything it gets to a file)
- * - SumConsumer (Filters out the numbers and sums them up)
- *
- * General consideration:
- * How to set up signals and slots?
- * How to deal with different content types of QVariant?
- * How to keep information alive over multiple runs of the same consumer?
- * (Multiple solutions are possible)
- */
-
 #ifndef WORKER_H
 #define WORKER_H
 
@@ -39,12 +15,6 @@ class Worker :
 
 public:
     explicit Worker();
-
-    /*
-     * This method is inherited from QRunnable and will be executed in a seperate thread.
-     * Override this to achieve some actual results.
-     * Remember to use some proper locking if necessary.
-     */
     virtual void run();
 };
 
@@ -57,10 +27,21 @@ public:
     virtual void run() = 0;
 
 signals:
+    /**
+     * @brief signal_deliverData will be emitted each time the ProducerWorker has created new data.
+     * @param data the data that will be handed to the main producer object.
+     */
     void signal_deliverData(QVariant data);
+
+    /**
+     * @brief signal_retire will be emitted once the ProducerWorker has no more data to produce.
+     */
     void signal_retire();
 };
 
+/**
+ * @brief The StringProducer class is a ProducerWorker creating the two strings 'foo' and 'bar'.
+ */
 class StringProducer :
         public ProducerWorker {
     Q_OBJECT
@@ -70,6 +51,10 @@ public:
     void run();
 };
 
+/**
+ * @brief The NumberProducer class is a ProducerWorker that generates a random number and counts
+ * up to it, this number corresponds to the data created.
+ */
 class NumberProducer :
         public ProducerWorker {
     Q_OBJECT
@@ -92,6 +77,10 @@ protected:
     static QMutex outputLock;
 };
 
+/**
+ * @brief The BasicConsumer class is a ConsumerWorker that prints the consumed data as a string
+ * to stderr.
+ */
 class BasicConsumer :
         public ConsumerWorker {
     Q_OBJECT
@@ -101,6 +90,10 @@ public:
     void run();
 };
 
+/**
+ * @brief The IterativeConsumer class models a ConsumerWorker that consumes a number and adds it
+ * to a cumulated value which is then printed to the stderr.
+ */
 class IterativeConsumer :
         public ConsumerWorker {
     Q_OBJECT
