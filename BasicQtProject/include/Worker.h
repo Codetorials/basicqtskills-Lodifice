@@ -62,6 +62,9 @@ class NumberProducer :
 public:
     explicit NumberProducer();
     void run();
+
+private:
+    static unsigned const maxNumber = 64;
 };
 
 class ConsumerWorker :

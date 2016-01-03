@@ -38,9 +38,9 @@ NumberProducer::NumberProducer():
 }
 
 void NumberProducer::run() {
-    unsigned count;
-    for (count = 0; count < (unsigned) qrand(); ++count)
-        ; /* PASS */
+    unsigned count = qrand() % NumberProducer::maxNumber;
+    for (unsigned i = 0; i < count; ++i) {
+    }
     emit this->signal_deliverData(QVariant(count));
     emit this->signal_retire();
 }
