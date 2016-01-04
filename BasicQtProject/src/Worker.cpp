@@ -1,6 +1,7 @@
 #include "include/Worker.h"
 
 #include <iostream>
+#include <QTextStream>
 
 using namespace basicQt;
 
@@ -12,7 +13,7 @@ Worker::Worker():
 }
 
 void Worker::run() {
-    std::cerr << "Basic worker implementation does not do anything." << std::endl;
+    QTextStream(stdout) << "Basic worker implementation does not do anything." << endl;
 }
 
 ProducerWorker::ProducerWorker():
@@ -60,7 +61,7 @@ BasicConsumer::BasicConsumer(QVariant data):
 
 void BasicConsumer::run() {
     ConsumerWorker::outputLock.lock();
-    std::cerr << "Consumed string \"" << this->m_data.toString().toStdString() << "\"" << std::endl;
+    QTextStream(stdout) << "Consumed string \"" << this->m_data.toString() << "\"" << endl;
     ConsumerWorker::outputLock.unlock();
 }
 
@@ -74,7 +75,7 @@ void IterativeConsumer::run() {
     IterativeConsumer::sumLock.lock();
     IterativeConsumer::sum += this->m_data.toUInt();
     ConsumerWorker::outputLock.lock();
-    std::cerr << "Cumulated number to " << IterativeConsumer::sum << std::endl;
+    QTextStream(stdout) << "Cumulated number to " << IterativeConsumer::sum << endl;
     ConsumerWorker::outputLock.unlock();
     IterativeConsumer::sumLock.unlock();
 }
