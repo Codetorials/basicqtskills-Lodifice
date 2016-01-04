@@ -31,6 +31,9 @@ public:
     MyApplication(int argc, char** argv);
     ~MyApplication() = default;
 
+    /**
+     * @brief setup ensures there are enough producers running in the beginning
+     */
     void setup();
 
 signals:

@@ -24,7 +24,6 @@ MyApplication::MyApplication(int argc, char** argv):
     QObject::connect(this, SIGNAL(signal_dataAvailable(QVariant)), &this->m_consumer, SLOT(slot_spawnConsumer(QVariant)));
 
     this->parseCommandLineArguments();
-    this->setup();
 }
 
 void MyApplication::parseCommandLineArguments() {
