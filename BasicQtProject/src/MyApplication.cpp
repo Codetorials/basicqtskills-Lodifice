@@ -18,10 +18,10 @@ MyApplication::MyApplication(int argc, char** argv):
     this->setApplicationVersion("v2015.12.18");
     this->setOrganizationName("GWT-TUD");
 
-    QObject::connect(&this->m_producer, &Producer::signal_dataProduced, this, &MyApplication::signal_dataAvailable);
-    QObject::connect(&this->m_producer, &Producer::signal_workDone, this, &MyApplication::slot_producerFinished);
-    QObject::connect(this, &MyApplication::signal_producersRequired, &this->m_producer, &Producer::slot_spawnProducers);
-    QObject::connect(this, &MyApplication::signal_dataAvailable, &this->m_consumer, &Consumer::slot_spawnConsumer);
+    QObject::connect(&(this->m_producer), &Producer::signal_dataProduced, this, &MyApplication::signal_dataAvailable);
+    QObject::connect(&(this->m_producer), &Producer::signal_workDone, this, &MyApplication::slot_producerFinished);
+    QObject::connect(this, &MyApplication::signal_producersRequired, &(this->m_producer), &Producer::slot_spawnProducers);
+    QObject::connect(this, &MyApplication::signal_dataAvailable, &(this->m_consumer), &Consumer::slot_spawnConsumer);
 
     this->parseCommandLineArguments();
 }
