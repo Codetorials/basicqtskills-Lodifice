@@ -20,7 +20,7 @@ void Producer::slot_spawnProducers() {
     } else {
         producer = new NumberProducer;
     }
-    QObject::connect(producer, SIGNAL(signal_deliverData(QVariant)), this, SIGNAL(signal_dataProduced(QVariant)));
-    QObject::connect(producer, SIGNAL(signal_retire()), this, SIGNAL(signal_workDone()));
+    QObject::connect(producer, &ProducerWorker::signal_deliverData, this, &Producer::signal_dataProduced);
+    QObject::connect(producer, &ProducerWorker::signal_retire, this, &Producer::signal_workDone);
     this->m_workers.start(producer);
 }
